@@ -8,9 +8,9 @@ type HeaderProps = {
 type HeaderState = {};
 
 const Header = styled.ul`
-    background: #696969;
+    background: #191a21;
+    border-bottom: 1px solid #191a21;
     display: flex;
-    height: 36px;
     margin: 0;
     padding: 0;
     list-style-type: none;

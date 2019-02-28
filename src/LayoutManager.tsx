@@ -49,6 +49,7 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
 
                     <StackComponent>
                         <HeaderComponent>
+                            <TapComponent title="Problem" />
                             <TapComponent title="Console" />
                             <TapComponent title="Output" />
                             <TapComponent title="Debug" />

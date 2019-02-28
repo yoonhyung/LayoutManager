@@ -6,8 +6,10 @@ type ItemContainerProps = {
 };
 
 const ItemContainer = styled.div`
-    background: '#daa520';
+    background: #282a36;
+    color: #e1e1dd;
     height: 100%;
+    text-align: center;
     width: 100%;
 `;
 
