@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type RowOrColumnProps = {
     type: string;
-    children?: ReactNode;
+    children?: import('react').ReactNode;
 };
 
 const Row = styled.div`
@@ -24,8 +24,10 @@ const defaultProps = {
     type: 'row'
 };
 
-export const RowOrColumnComponent = (props: RowOrColumnProps) => {
+const RowOrColumnComponent = (props: RowOrColumnProps) => {
     return props.type === 'row' ? <Row>{props.children}</Row> : <Column>{props.children}</Column>;
 };
 
 RowOrColumnComponent.defaultProps = defaultProps;
+
+export default RowOrColumnComponent;

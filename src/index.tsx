@@ -7,8 +7,11 @@ const GlobalStyle = createGlobalStyle`
     html,
     body,
     #root {
+        font-family: Segoe WPC,Segoe UI,Malgun Gothic,Dotom,sans-serif;
+        font-size: 13px;
         height: 100%;
         margin: 0;
+        overflow: hidden;
         width: 100%;
     }
 `;
@@ -18,5 +21,5 @@ render(
         <LayoutManager />
         <GlobalStyle />
     </>,
-    document.getElementById('root')
+    document.getElementById('root') as HTMLElement
 );

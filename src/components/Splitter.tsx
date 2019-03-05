@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 type SplitterProps = {
-    borderWidth: number;
+    borderWidth: string;
     draggable: boolean;
     isVertical: boolean;
 };
@@ -15,12 +15,14 @@ const Splitter = styled.div<SplitterProps>`
     width: ${props => (props.isVertical ? `${props.borderWidth}px` : '100%')};
 `;
 
-export const SplitterComponent = (props: SplitterProps) => {
+const SplitterComponent = (props: SplitterProps) => {
     return <Splitter {...props} />;
 };
 
 SplitterComponent.defaultProps = {
-    borderWidth: 5,
+    borderWidth: '3',
     draggable: true,
     isVertical: true
 };
+
+export default SplitterComponent;

@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type RootProps = {
-    children?: ReactNode;
+    children?: import('react').ReactNode;
 };
 
 const Root = styled.div`
@@ -12,6 +12,8 @@ const Root = styled.div`
     width: 100%;
 `;
 
-export const RootComponent = (props: RootProps) => {
+const RootComponent = (props: RootProps) => {
     return <Root>{props.children}</Root>;
 };
+
+export default RootComponent;

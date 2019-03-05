@@ -16,7 +16,7 @@ const defaultProps = {
 };
 
 const Tab = styled.li<{ isActive: boolean }>`
-    background: ${props => (props.isActive ? '#008000' : '#282a36')};
+    background: ${props => (props.isActive ? '#282a36' : '#21222c')};
     border-right: 1px solid #191a21;
     color: #e1e1dd;
     cursor: pointer;
@@ -24,8 +24,9 @@ const Tab = styled.li<{ isActive: boolean }>`
     padding: 10px;
 `;
 
-export const TapComponent = (props: TabProps) => {
+const TapComponent = (props: TabProps) => {
     const { title, ...rest } = props;
+
     return (
         <Tab title={title} {...rest}>
             <span>{title}</span>
@@ -34,3 +35,5 @@ export const TapComponent = (props: TabProps) => {
 };
 
 TapComponent.defaultProps = defaultProps;
+
+export default TapComponent;

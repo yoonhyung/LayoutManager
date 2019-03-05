@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
-import { StackComponent } from './components/Stack';
-import { RootComponent } from './components/Root';
-import { RowOrColumnComponent } from './components/RowOrColumn';
-import { SplitterComponent } from './components/Splitter';
-import { TapComponent } from './components/Tab';
-import { HeaderComponent } from './components/Header';
-import { ItemContainerComponent } from './components/ItemContainer';
+import HeaderComponent from './components/Header';
+import ItemContainerComponent from './components/ItemContainer';
+import RootComponent from './components/Root';
+import RowOrColumnComponent from './components/RowOrColumn';
+import SplitterComponent from './components/Splitter';
+import StackComponent from './components/Stack';
+import TapComponent from './components/Tab';
 
-interface LayoutManagerProps {}
-interface LayoutManagerState {}
+type LayoutManagerProps = {};
+type LayoutManagerState = {};
 
 export default class LayoutManager extends PureComponent<LayoutManagerProps, LayoutManagerState> {
     init() {
@@ -18,9 +18,9 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
     createElement() {
         return (
             <RowOrColumnComponent type="row">
-                <StackComponent>
+                <StackComponent width="300">
                     <HeaderComponent>
-                        <TapComponent title="Explorer" />
+                        <TapComponent title="Explorer" isActive={true} />
                         <TapComponent title="Git" />
                     </HeaderComponent>
                     <ItemContainerComponent>Left Container</ItemContainerComponent>
@@ -33,25 +33,25 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
                         <StackComponent>
                             <HeaderComponent>
                                 <TapComponent title="LayoutManager.tsx" />
-                                <TapComponent title="Stack.tsx" />
+                                <TapComponent title="Stack.tsx" isActive={true} />
                             </HeaderComponent>
                             <ItemContainerComponent>Center Container</ItemContainerComponent>
                         </StackComponent>
 
                         <SplitterComponent isVertical={true} />
 
-                        <StackComponent>
-                            <ItemContainerComponent>Right Container</ItemContainerComponent>
+                        <StackComponent width="300">
+                            <ItemContainerComponent hasHeader={false}>Right Container</ItemContainerComponent>
                         </StackComponent>
                     </RowOrColumnComponent>
 
                     <SplitterComponent isVertical={false} />
 
-                    <StackComponent>
+                    <StackComponent height="300">
                         <HeaderComponent>
                             <TapComponent title="Problem" />
                             <TapComponent title="Console" />
-                            <TapComponent title="Output" />
+                            <TapComponent title="Output" isActive={true} />
                             <TapComponent title="Debug" />
                         </HeaderComponent>
                         <ItemContainerComponent>Bottom Container</ItemContainerComponent>
