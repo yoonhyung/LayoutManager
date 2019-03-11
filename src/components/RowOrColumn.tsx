@@ -37,7 +37,7 @@ const ColumnDiv = styled.div`
 
 const defaultProps = {
     allowResize: true,
-    borderWidth: 3,
+    borderWidth: 2,
     type: 'row',
     primary: 'first'
 };

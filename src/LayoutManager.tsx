@@ -16,7 +16,7 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
 
     createElement() {
         return (
-            <RowOrColumn type="row" size={300} borderWidth={2}>
+            <RowOrColumn type="row" size={300}>
                 <Stack>
                     <Header>
                         <Tap title="Explorer" isActive={true} />
@@ -25,8 +25,8 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
                     <ItemContainer>Left Container</ItemContainer>
                 </Stack>
 
-                <RowOrColumn type="column" primary="second" size={300} borderWidth={2}>
-                    <RowOrColumn type="row" primary="second" size={300} borderWidth={2}>
+                <RowOrColumn type="column" primary="second" size={300}>
+                    <RowOrColumn type="row" primary="second" size={300}>
                         <Stack>
                             <Header>
                                 <Tap title="LayoutManager.tsx" />
