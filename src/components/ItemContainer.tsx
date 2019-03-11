@@ -6,27 +6,27 @@ type ItemContainerProps = {
     hasHeader: boolean;
 };
 
-const ItemContainer = styled.div<ItemContainerProps>`
+const ItemContainerDiv = styled.div<ItemContainerProps>`
     background: #282a36;
     color: #e1e1dd;
     height: ${props => (props.hasHeader ? `calc(100% - 38px)` : '100%')};
     width: 100%;
 `;
 
-const ContentItem = styled.div`
+const ContentItemDiv = styled.div`
     text-align: center;
 `;
 
-const ItemContainerComponent = (props: ItemContainerProps) => {
+const ItemContainer = (props: ItemContainerProps) => {
     return (
-        <ItemContainer {...props}>
-            <ContentItem>{props.children}</ContentItem>
-        </ItemContainer>
+        <ItemContainerDiv {...props}>
+            <ContentItemDiv>{props.children}</ContentItemDiv>
+        </ItemContainerDiv>
     );
 };
 
-ItemContainerComponent.defaultProps = {
+ItemContainer.defaultProps = {
     hasHeader: true
 };
 
-export default ItemContainerComponent;
+export default ItemContainer;

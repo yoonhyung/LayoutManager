@@ -48,7 +48,7 @@
             true,
             "ignore-for-loop"
         ],
-        "semicolon": true,
+        "semicolon": [true, "always", "ignore-bound-class-methods"],
         "triple-equals": [
             true,
             "allow-null-check"

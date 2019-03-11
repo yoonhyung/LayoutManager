@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import HeaderComponent from './components/Header';
-import ItemContainerComponent from './components/ItemContainer';
+import Header from './components/Header';
+import ItemContainer from './components/ItemContainer';
 import RootComponent from './components/Root';
-import RowOrColumnComponent from './components/RowOrColumn';
-import SplitterComponent from './components/Splitter';
-import StackComponent from './components/Stack';
-import TapComponent from './components/Tab';
+import RowOrColumn from './components/RowOrColumn';
+import Stack from './components/Stack';
+import Tap from './components/Tab';
 
 type LayoutManagerProps = {};
 type LayoutManagerState = {};
@@ -17,47 +16,41 @@ export default class LayoutManager extends PureComponent<LayoutManagerProps, Lay
 
     createElement() {
         return (
-            <RowOrColumnComponent type="row">
-                <StackComponent width="300">
-                    <HeaderComponent>
-                        <TapComponent title="Explorer" isActive={true} />
-                        <TapComponent title="Git" />
-                    </HeaderComponent>
-                    <ItemContainerComponent>Left Container</ItemContainerComponent>
-                </StackComponent>
+            <RowOrColumn type="row" size={300} borderWidth={2}>
+                <Stack>
+                    <Header>
+                        <Tap title="Explorer" isActive={true} />
+                        <Tap title="Git" />
+                    </Header>
+                    <ItemContainer>Left Container</ItemContainer>
+                </Stack>
 
-                <SplitterComponent isVertical={true} />
+                <RowOrColumn type="column" primary="second" size={300} borderWidth={2}>
+                    <RowOrColumn type="row" primary="second" size={300} borderWidth={2}>
+                        <Stack>
+                            <Header>
+                                <Tap title="LayoutManager.tsx" />
+                                <Tap title="Stack.tsx" isActive={true} />
+                            </Header>
+                            <ItemContainer>Center Container</ItemContainer>
+                        </Stack>
 
-                <RowOrColumnComponent type="column">
-                    <RowOrColumnComponent type="row">
-                        <StackComponent>
-                            <HeaderComponent>
-                                <TapComponent title="LayoutManager.tsx" />
-                                <TapComponent title="Stack.tsx" isActive={true} />
-                            </HeaderComponent>
-                            <ItemContainerComponent>Center Container</ItemContainerComponent>
-                        </StackComponent>
+                        <Stack>
+                            <ItemContainer hasHeader={false}>Right Container</ItemContainer>
+                        </Stack>
+                    </RowOrColumn>
 
-                        <SplitterComponent isVertical={true} />
-
-                        <StackComponent width="300">
-                            <ItemContainerComponent hasHeader={false}>Right Container</ItemContainerComponent>
-                        </StackComponent>
-                    </RowOrColumnComponent>
-
-                    <SplitterComponent isVertical={false} />
-
-                    <StackComponent height="300">
-                        <HeaderComponent>
-                            <TapComponent title="Problem" />
-                            <TapComponent title="Console" />
-                            <TapComponent title="Output" isActive={true} />
-                            <TapComponent title="Debug" />
-                        </HeaderComponent>
-                        <ItemContainerComponent>Bottom Container</ItemContainerComponent>
-                    </StackComponent>
-                </RowOrColumnComponent>
-            </RowOrColumnComponent>
+                    <Stack>
+                        <Header>
+                            <Tap title="Problem" />
+                            <Tap title="Console" />
+                            <Tap title="Output" isActive={true} />
+                            <Tap title="Debug" />
+                        </Header>
+                        <ItemContainer>Bottom Container</ItemContainer>
+                    </Stack>
+                </RowOrColumn>
+            </RowOrColumn>
         );
     }
 

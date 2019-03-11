@@ -1,29 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 type StackProps = {
     children?: import('react').ReactNode;
-    isShow: boolean;
     height: string;
     width: string;
 };
 
-const Stack = styled.div<StackProps>`
+const StackDiv = styled.div<StackProps>`
     background: #00bfff;
-    display: ${props => (props.isShow ? 'block' : 'none')}
     flex: ${props => (props.width ? `0 0 ${props.width}px` : 'auto')};
     height: ${props => (props.height ? `${props.height}px` : '100%')};
 `;
 
-const StackComponent = (props: StackProps) => {
-    return <Stack {...props}>{props.children}</Stack>;
-};
-
-StackComponent.defaultProps = {
+const defaultProps = {
     hasHeader: true,
-    isShow: true,
     height: '',
     width: ''
 };
 
-export default StackComponent;
+class Stack extends Component<StackProps> {
+    static defaultProps = defaultProps;
+
+    render() {
+        const { children } = this.props;
+
+        return <StackDiv {...this.props}>{children}</StackDiv>;
+    }
+}
+
+export default Stack;

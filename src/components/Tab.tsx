@@ -15,7 +15,7 @@ const defaultProps = {
     title: 'Unnamed'
 };
 
-const Tab = styled.li<{ isActive: boolean }>`
+const TabLi = styled.li<{ isActive: boolean }>`
     background: ${props => (props.isActive ? '#282a36' : '#21222c')};
     border-right: 1px solid #191a21;
     color: #e1e1dd;
@@ -24,16 +24,16 @@ const Tab = styled.li<{ isActive: boolean }>`
     padding: 10px;
 `;
 
-const TapComponent = (props: TabProps) => {
+const Tap = (props: TabProps) => {
     const { title, ...rest } = props;
 
     return (
-        <Tab title={title} {...rest}>
+        <TabLi title={title} {...rest}>
             <span>{title}</span>
-        </Tab>
+        </TabLi>
     );
 };
 
-TapComponent.defaultProps = defaultProps;
+Tap.defaultProps = defaultProps;
 
-export default TapComponent;
+export default Tap;

@@ -1,28 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 type SplitterProps = {
-    borderWidth: string;
-    draggable: boolean;
-    isVertical: boolean;
+    borderWidth: number;
+    resizer: boolean;
+    split: string;
+    onMouseDown: (event: any) => void;
+    onMouseMove: (event: any) => void;
+    onMouseUp: (event: any) => void;
 };
 
-const Splitter = styled.div<SplitterProps>`
+const defaultProps = {
+    borderWidth: 3,
+    split: 'vertical',
+    resizer: true
+};
+
+const SplitterDiv = styled.div<SplitterProps>`
     background: #ff1493;
-    cursor: ${props => (props.isVertical ? 'w-resize' : 'n-resize')};
+    cursor: ${props => (props.split === 'vertical' ? 'w-resize' : 'n-resize')};
     flex: none;
-    height: ${props => (props.isVertical ? '100%' : `${props.borderWidth}px`)};
-    width: ${props => (props.isVertical ? `${props.borderWidth}px` : '100%')};
+    height: ${props => (props.split === 'vertical' ? '100%' : `${props.borderWidth}px`)};
+    width: ${props => (props.split === 'vertical' ? `${props.borderWidth}px` : '100%')};
 `;
 
-const SplitterComponent = (props: SplitterProps) => {
-    return <Splitter {...props} />;
-};
+class Splitter extends Component<SplitterProps> {
+    static defaultProps = defaultProps;
 
-SplitterComponent.defaultProps = {
-    borderWidth: '3',
-    draggable: true,
-    isVertical: true
-};
+    onMouseDown = (event: any) => {
+        this.props.onMouseDown(event);
+    };
 
-export default SplitterComponent;
+    onMouseMove = (event: any) => {
+        this.props.onMouseMove(event);
+    };
+
+    onMouseUp = (event: any) => {
+        this.props.onMouseUp(event);
+    };
+
+    render() {
+        const splitterProps = {
+            ...this.props,
+            onMouseDown: this.onMouseDown,
+            onMouseMove: this.onMouseMove,
+            onMouseUp: this.onMouseUp
+        };
+
+        return <SplitterDiv {...splitterProps} />;
+    }
+}
+
+export default Splitter;

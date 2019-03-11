@@ -7,7 +7,7 @@ type HeaderProps = {
 
 type HeaderState = {};
 
-const Header = styled.ul`
+const HeaderUl = styled.ul`
     background: #191a21;
     border-bottom: 1px solid #191a21;
     display: flex;
@@ -17,8 +17,8 @@ const Header = styled.ul`
     width: 100%;
 `;
 
-const HeaderComponent = (props: HeaderProps) => {
-    return <Header>{props.children}</Header>;
+const Header = (props: HeaderProps) => {
+    return <HeaderUl>{props.children}</HeaderUl>;
 };
 
-export default HeaderComponent;
+export default Header;
