@@ -90,7 +90,7 @@ class RowOrColumn extends Component<RowOrColumnProps, RowOrColumnState> {
         const { active } = this.state;
 
         if (allowResize && active) {
-            this.getSizeUpdate(event);
+            this.updateSize(event);
         }
     };
 
@@ -118,7 +118,7 @@ class RowOrColumn extends Component<RowOrColumnProps, RowOrColumnState> {
         return this.secondPaneRef.current.getInstance();
     };
 
-    getSizeUpdate = (event: any) => {
+    updateSize = (event: any) => {
         const { clientX, clientY } = event;
         const { allowDock, borderSize, dockThereholdSize } = this.props;
         const rowOrColumnPosition = this.getRowOrColumnInstance().getBoundingClientRect();
