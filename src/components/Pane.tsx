@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 type PaneProps = {
     children?: import('react').ReactNode;
-    split: string;
+    split?: string;
     size?: number | string | undefined;
 };
 
@@ -19,6 +19,10 @@ class Pane extends Component<PaneProps> {
     static defaultProps = defaultProps;
 
     paneRef = createRef<HTMLDivElement>();
+
+    getInstance = () => {
+        return this.paneRef.current;
+    };
 
     render() {
         const { children, size, split } = this.props;
@@ -38,11 +42,13 @@ class Pane extends Component<PaneProps> {
             }
         }
 
-        return (
-            <PaneDiv ref={this.paneRef} style={style} {...this.props}>
-                {children}
-            </PaneDiv>
-        );
+        const paneProps = {
+            ...this.props,
+            style,
+            ref: this.paneRef
+        };
+
+        return <PaneDiv {...paneProps}>{children}</PaneDiv>;
     }
 }
 

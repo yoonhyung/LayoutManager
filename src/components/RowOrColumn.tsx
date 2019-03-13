@@ -2,11 +2,14 @@ import React, { Component, Children, createRef } from 'react';
 import Pane from './Pane';
 import Splitter from './Splitter';
 import styled from 'styled-components';
+import { unFocus } from '../utils/utils';
 
 type RowOrColumnProps = {
+    allowDock: boolean;
     allowResize: boolean;
-    borderWidth?: number;
+    borderSize?: number;
     children?: import('react').ReactNode;
+    dockThereholdSize: number;
     type: 'row' | 'column';
     primary?: 'first' | 'second';
     size?: number | string | undefined;
@@ -14,8 +17,8 @@ type RowOrColumnProps = {
 
 type RowOrColumnState = {
     active: boolean;
-    pane1Size: number | string | undefined;
-    pane2Size: number | string | undefined;
+    firstPaneSize: number | string | undefined;
+    secondPaneSize: number | string | undefined;
 };
 
 const RowDiv = styled.div`
@@ -36,28 +39,19 @@ const ColumnDiv = styled.div`
 `;
 
 const defaultProps = {
+    allowDock: true,
     allowResize: true,
-    borderWidth: 2,
+    borderSize: 2,
+    dockThereholdSize: 20,
     type: 'row',
     primary: 'first'
 };
 
-const unFocus = (document: any, window: any) => {
-    if (document.selection) {
-        document.selection.empty();
-    } else {
-        try {
-            window.getSelection().removeAllRanges();
-            // eslint-disable-next-line no-empty
-        } catch (e) {}
-    }
-};
-
-const getInitializeState = (props: RowOrColumnProps) => {
+const getInitializeState = (props: RowOrColumnProps): RowOrColumnState => {
     return {
         active: false,
-        pane1Size: props.size || undefined,
-        pane2Size: props.size || undefined
+        firstPaneSize: props.size || undefined,
+        secondPaneSize: props.size || undefined
     };
 };
 
@@ -65,8 +59,8 @@ class RowOrColumn extends Component<RowOrColumnProps, RowOrColumnState> {
     static defaultProps = defaultProps;
 
     rowOrColumnRef = createRef<HTMLDivElement>();
-    pane1Ref = createRef<Pane>();
-    pane2Ref = createRef<Pane>();
+    firstPaneRef = createRef<Pane>();
+    secondPaneRef = createRef<Pane>();
 
     state = getInitializeState(this.props);
 
@@ -112,28 +106,41 @@ class RowOrColumn extends Component<RowOrColumnProps, RowOrColumnState> {
         }
     };
 
+    getRowOrColumnInstance = () => {
+        return this.rowOrColumnRef.current;
+    };
+
+    getFirstPaneInstance = () => {
+        return this.firstPaneRef.current.getInstance();
+    };
+
+    getSecondPaneInstance = () => {
+        return this.secondPaneRef.current.getInstance();
+    };
+
     getSizeUpdate = (event: any) => {
-        const { type, primary } = this.props;
         const { clientX, clientY } = event;
-        const dockingThresholdValue = 20;
+        const { allowDock, borderSize, dockThereholdSize } = this.props;
+        const rowOrColumnPosition = this.getRowOrColumnInstance().getBoundingClientRect();
+        const currentSize = this.isRow() ? clientX : clientY;
+        const maxSize = (this.isRow() ? rowOrColumnPosition.right : rowOrColumnPosition.height) - borderSize;
 
         unFocus(document, window);
 
-        if (primary === 'first') {
-            const resizedWidth = clientX <= dockingThresholdValue ? 0 : clientX;
-            const resizedHeight = clientY <= dockingThresholdValue ? 0 : clientY;
+        if (this.isPrimaryFirst()) {
+            const targetSize = allowDock ? (currentSize <= dockThereholdSize ? 0 : currentSize) : currentSize;
+            const resizedSize = targetSize >= maxSize ? maxSize : targetSize;
 
             this.setState({
-                pane1Size: type === 'row' ? resizedWidth : resizedHeight
+                firstPaneSize: resizedSize
             });
         } else {
-            const { innerWidth, innerHeight } = window;
-
-            const resizedWidth = innerWidth - clientX <= dockingThresholdValue ? 0 : innerWidth - clientX;
-            const resizedHeight = innerHeight - clientY <= dockingThresholdValue ? 0 : innerHeight - clientY;
+            const caculatedSize = maxSize - currentSize;
+            const targetSize = allowDock ? (caculatedSize <= dockThereholdSize ? 0 : caculatedSize) : caculatedSize;
+            const resizedSize = targetSize >= maxSize ? maxSize : targetSize;
 
             this.setState({
-                pane2Size: type === 'row' ? resizedWidth : resizedHeight
+                secondPaneSize: resizedSize
             });
         }
     };
@@ -142,51 +149,53 @@ class RowOrColumn extends Component<RowOrColumnProps, RowOrColumnState> {
         return Children.toArray(children);
     }
 
+    isPrimaryFirst = () => {
+        const { primary } = this.props;
+
+        return primary === 'first';
+    };
+
+    isRow = () => {
+        const { type } = this.props;
+
+        return type === 'row';
+    };
+
     render() {
-        const { borderWidth, children, primary, type } = this.props;
-        const { pane1Size, pane2Size } = this.state;
+        const { borderSize, children } = this.props;
+        const { firstPaneSize, secondPaneSize } = this.state;
         const childrenComponent = this.convertArrayChildren(children);
 
-        let RowOrColumn = null;
-        let split = null;
-
-        if (type === 'row') {
-            RowOrColumn = RowDiv;
-            split = 'vertical';
-        } else {
-            RowOrColumn = ColumnDiv;
-            split = 'horizontal';
-        }
+        const RowOrColumn = this.isRow() ? RowDiv : ColumnDiv;
+        const split = this.isRow() ? 'vertical' : 'horizontal';
 
         const splitterProps = {
-            borderWidth,
+            borderSize,
             split,
             onMouseDown: this.onMouseDown,
             onMouseMove: this.onMouseMove,
             onMouseUp: this.onMouseUp
         };
 
-        const pane1Props = {
-            size: primary === 'first' ? pane1Size : undefined,
-            split
+        const firstPaneProps = {
+            split,
+            ref: this.firstPaneRef,
+            size: this.isPrimaryFirst() ? firstPaneSize : undefined
         };
 
-        const pane2Props = {
-            size: primary === 'second' ? pane2Size : undefined,
-            split
+        const secondPaneProps = {
+            split,
+            ref: this.secondPaneRef,
+            size: this.isPrimaryFirst() ? undefined : secondPaneSize
         };
 
         return (
             <RowOrColumn ref={this.rowOrColumnRef}>
-                <Pane ref={this.pane1Ref} {...pane1Props}>
-                    {childrenComponent[0]}
-                </Pane>
+                <Pane {...firstPaneProps}>{childrenComponent[0] || null}</Pane>
 
                 <Splitter {...splitterProps} />
 
-                <Pane ref={this.pane2Ref} {...pane2Props}>
-                    {childrenComponent[1]}
-                </Pane>
+                <Pane {...secondPaneProps}>{childrenComponent[1] || null}</Pane>
             </RowOrColumn>
         );
     }

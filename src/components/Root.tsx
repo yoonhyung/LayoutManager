@@ -6,7 +6,7 @@ type RootProps = {
 };
 
 const Root = styled.div`
-    background: #f0f0f0;
+    background: #282a36;
     display: flex;
     height: 100%;
     width: 100%;

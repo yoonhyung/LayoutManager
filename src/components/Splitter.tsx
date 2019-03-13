@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 type SplitterProps = {
-    borderWidth: number;
+    borderSize: number;
     resizer: boolean;
     split: string;
     onMouseDown: (event: any) => void;
@@ -11,17 +11,20 @@ type SplitterProps = {
 };
 
 const defaultProps = {
-    borderWidth: 3,
+    borderSize: 3,
     split: 'vertical',
     resizer: true
 };
 
 const SplitterDiv = styled.div<SplitterProps>`
-    background: #ff1493;
-    cursor: ${props => (props.split === 'vertical' ? 'w-resize' : 'n-resize')};
+    cursor: ${props => (props.split === 'vertical' ? 'col-resize' : 'row-resize')};
     flex: none;
-    height: ${props => (props.split === 'vertical' ? '100%' : `${props.borderWidth}px`)};
-    width: ${props => (props.split === 'vertical' ? `${props.borderWidth}px` : '100%')};
+`;
+
+const InnerSplitter = styled.div<SplitterProps>`
+    background: #ff1493;
+    height: ${props => (props.split === 'vertical' ? '100%' : `${props.borderSize}px`)};
+    width: ${props => (props.split === 'vertical' ? `${props.borderSize}px` : '100%')};
 `;
 
 class Splitter extends Component<SplitterProps> {
@@ -47,7 +50,11 @@ class Splitter extends Component<SplitterProps> {
             onMouseUp: this.onMouseUp
         };
 
-        return <SplitterDiv {...splitterProps} />;
+        return (
+            <SplitterDiv {...splitterProps}>
+                <InnerSplitter {...this.props} />
+            </SplitterDiv>
+        );
     }
 }
 
